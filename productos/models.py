@@ -1,10 +1,11 @@
 from django.db import models
+from cloudinary import models as modelsCloudinary
 
-# Create your models here.
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=45, null=False)
+    imagen = models.ImageField(null=True) # falta cambiar
 
     class Meta:
         db_table = 'categorias'
@@ -14,7 +15,7 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=45, null=False)
     short_description = models.CharField(max_length=100, null=False)
     description = models.TextField(null=False)
-    imagen = models.ImageField()
+    imagen = modelsCloudinary.CloudinaryField(folder='productos', null=True)
     disponible = models.BooleanField(default=True, null=False)
     precio = models.FloatField(null=False)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)

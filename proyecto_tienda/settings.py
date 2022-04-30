@@ -14,6 +14,7 @@ from pathlib import Path
 
 from os import environ
 from dotenv import load_dotenv
+import cloudinary
 
 load_dotenv()
 
@@ -33,10 +34,19 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -46,6 +56,8 @@ INSTALLED_APPS = [
     'usuarios',
 
     'rest_framework',
+
+    'rest_framework_simplejwt',
 
     
 ]
@@ -83,6 +95,9 @@ WSGI_APPLICATION = 'proyecto_tienda.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 DATABASES = {
     'default': {
@@ -135,3 +150,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+cloudinary.config(
+    cloud_name=environ.get('CLOUDINARY_NAME'),
+    api_key=environ.get('CLOUDINARY_API_KEY'),
+    api_secret=environ.get('CLOUDINARY_SECRET')
+)
